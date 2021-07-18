@@ -47,7 +47,7 @@ def yfinancedownload(csv_file_name, interval_time):
                 except Exception:
                     pass
  
-def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 20, long_window = 50):
+def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 2, long_window = 55):
      dataframes = {}
      for filename in os.listdir('datasets'):
             symbol = filename.split(".")[0]
@@ -60,7 +60,7 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 20, long_window = 50):
             df['SMA_short'] = df['Close'].rolling(window = short_window, min_periods = 1).mean()
             df['SMA_long'] = df['Close'].rolling(window = long_window, min_periods = 1).mean()
             df['DMA_short'] = 2*df['SMA_short'] - (df['SMA_short'].ewm(span = short_window, adjust = False).mean())
-            df['DMA_long'] = 2*df['SMA_long'] - (df['SMA_long'].ewm(span = short_window, adjust = False).mean())
+            df['DMA_long'] = 2*df['SMA_long'] - (df['SMA_long'].ewm(span = long_window, adjust = False).mean())
             df['Signal'] = 0.0
             df['Signal'] = np.where(df['DMA_short'] > df['DMA_long'], 1.0, 0.0) 
             df['Position'] = df['Signal'].diff()
@@ -133,6 +133,7 @@ def email_export():
         print("Emailed!")
 
 def download_and_email():
+    print ("RUNNING !!!" ) 
     if (datetime.datetime.today().weekday() <= 4) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
         createdirectory()
         f = open(completeName, "a")
@@ -152,23 +153,23 @@ def download_and_email():
 
 
 def main():
-    # download_and_email()
-    schedule.every().hour.do(download_and_email)
-    # schedule.every().monday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().monday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().tuesday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().tuesday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().wednesday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().wednesday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().thursday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().thursday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().friday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().friday.at(trading_end_time_hour+":00").do(download_and_email)
+    download_and_email()
+    # schedule.every().hour.do(download_and_email)
+    # # schedule.every().monday.at(trading_start_time_hour+":00").do(download_and_email)
+    # schedule.every().monday.at(trading_end_time_hour+":00").do(download_and_email)
+    # schedule.every().tuesday.at(trading_start_time_hour+":00").do(download_and_email)
+    # schedule.every().tuesday.at(trading_end_time_hour+":00").do(download_and_email)
+    # schedule.every().wednesday.at(trading_start_time_hour+":00").do(download_and_email)
+    # schedule.every().wednesday.at(trading_end_time_hour+":00").do(download_and_email)
+    # schedule.every().thursday.at(trading_start_time_hour+":00").do(download_and_email)
+    # schedule.every().thursday.at(trading_end_time_hour+":00").do(download_and_email)
+    # schedule.every().friday.at(trading_start_time_hour+":00").do(download_and_email)
+    # schedule.every().friday.at(trading_end_time_hour+":00").do(download_and_email)
 
 
-    while True:
-        schedule.run_pending()
-        time.sleep(1)    
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)    
     
 if __name__ == "__main__":
     main()
