@@ -1,0 +1,75 @@
+Start : Sun Jul 18 22:31:47 2021
+AAL is in crossover. Position = -1.0,Result = Sell, Volume = 6000032
+
+AME is in crossover. Position = 1.0,Result = Buy, Volume = 408089
+
+CDNS is in crossover. Position = -1.0,Result = Sell, Volume = 152584
+
+CHD is in crossover. Position = 1.0,Result = Buy, Volume = 251357
+
+CTSH is in crossover. Position = -1.0,Result = Sell, Volume = 358331
+
+DLTR is in crossover. Position = -1.0,Result = Sell, Volume = 247150
+
+EIX is in crossover. Position = 1.0,Result = Buy, Volume = 359189
+
+FFIV is in crossover. Position = -1.0,Result = Sell, Volume = 66942
+
+FRC is in crossover. Position = -1.0,Result = Sell, Volume = 240876
+
+GPC is in crossover. Position = 1.0,Result = Buy, Volume = 96219
+
+IDXX is in crossover. Position = 1.0,Result = Buy, Volume = 70830
+
+QCOM is in crossover. Position = -1.0,Result = Sell, Volume = 1410274
+
+SWKS is in crossover. Position = -1.0,Result = Sell, Volume = 271959
+
+T is in crossover. Position = 1.0,Result = Buy, Volume = 3063988
+
+Start : Sun Jul 18 22:51:21 2021
+AAL is in crossover. Close = 19.78499984741211,Result = Sell, Volume = 6000032
+
+AME is in crossover. Close = 136.22000122070312,Result = Buy, Volume = 408089
+
+CDNS is in crossover. Close = 137.6300048828125,Result = Sell, Volume = 152584
+
+CHD is in crossover. Close = 87.33000183105469,Result = Buy, Volume = 251357
+
+CTSH is in crossover. Close = 68.2300033569336,Result = Sell, Volume = 358331
+
+DLTR is in crossover. Close = 98.19000244140624,Result = Sell, Volume = 247150
+
+EIX is in crossover. Close = 58.0099983215332,Result = Buy, Volume = 359189
+
+FFIV is in crossover. Close = 185.66000366210935,Result = Sell, Volume = 66942
+
+FRC is in crossover. Close = 195.5800018310547,Result = Sell, Volume = 240876
+
+GPC is in crossover. Close = 127.5999984741211,Result = Buy, Volume = 96219
+
+IDXX is in crossover. Close = 667.77001953125,Result = Buy, Volume = 70830
+
+QCOM is in crossover. Close = 139.7100067138672,Result = Sell, Volume = 1410274
+
+SWKS is in crossover. Close = 188.1000061035156,Result = Sell, Volume = 271959
+
+T is in crossover. Close = 28.34000015258789,Result = Buy, Volume = 3063988
+
+Start : Sun Jul 18 22:55:33 2021
+BORR is in crossover. Close = 7.300000190734863,Result = Sell, Volume = 117774
+
+GSF is in crossover. Close = 87.44999694824219,Result = Buy, Volume = 16062
+
+HDLY is in crossover. Close = 9.645999908447266,Result = Buy, Volume = 1823
+
+KMCP is in crossover. Close = 6.539999961853027,Result = Buy, Volume = 2000
+
+LINK is in crossover. Close = 33.45000076293945,Result = Buy, Volume = 23152
+
+NSOL is in crossover. Close = 8.621999740600586,Result = Sell, Volume = 5
+
+NTI is in crossover. Close = 10.210000038146973,Result = Buy, Volume = 1000
+
+OCY is in crossover. Close = 29.81999969482422,Result = Sell, Volume = 31960
+
