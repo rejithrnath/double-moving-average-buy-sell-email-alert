@@ -1,140 +1,32 @@
-Start SP500: Mon Jul 19 06:27:00 2021
-BBY is in crossover. Close = 110.58000183105467,Result = Sell, Volume = 506130
+Start SP500: Mon Jul 19 08:00:01 2021
 
-BMY is in crossover. Close = 67.30999755859375,Result = Sell, Volume = 1040291
+*******************************************************************
+ANSS is in crossover. Close = 349.7900085449219,Result = Sell, Volume = 80307
 
-CBRE is in crossover. Close = 82.9800033569336,Result = Sell, Volume = 140911
+CPB is in crossover. Close = 45.540000915527344,Result = Buy, Volume = 521018
 
-DG is in crossover. Close = 222.1699981689453,Result = Sell, Volume = 222032
+DHI is in crossover. Close = 86.30000305175781,Result = Buy, Volume = 391826
 
-EA is in crossover. Close = 143.08999633789062,Result = Sell, Volume = 416330
+EXPD is in crossover. Close = 126.8000030517578,Result = Buy, Volume = 185490
 
-EBAY is in crossover. Close = 68.18000030517578,Result = Sell, Volume = 592801
+EXR is in crossover. Close = 171.92999267578125,Result = Buy, Volume = 135303
 
-EQIX is in crossover. Close = 830.510009765625,Result = Sell, Volume = 90509
+T is in crossover. Close = 28.34000015258789,Result = Buy, Volume = 3063988
 
-GPN is in crossover. Close = 194.72000122070312,Result = Sell, Volume = 238811
-
-HCA is in crossover. Close = 219.19000244140625,Result = Sell, Volume = 209117
-
-HII is in crossover. Close = 200.83999633789065,Result = Sell, Volume = 17542
-
-KIM is in crossover. Close = 21.1299991607666,Result = Sell, Volume = 1090867
-
-LEN is in crossover. Close = 95.95999908447266,Result = Sell, Volume = 330222
-
-LW is in crossover. Close = 77.62000274658203,Result = Sell, Volume = 164938
-
-NOC is in crossover. Close = 362.9100036621094,Result = Sell, Volume = 163012
-
-NVR is in crossover. Close = 4800.0,Result = Sell, Volume = 3556
-
-OTIS is in crossover. Close = 84.91000366210938,Result = Sell, Volume = 255768
-
-PEP is in crossover. Close = 155.80999755859375,Result = Sell, Volume = 927305
-
-PM is in crossover. Close = 98.93000030517578,Result = Sell, Volume = 337919
-
-PPG is in crossover. Close = 170.22000122070312,Result = Buy, Volume = 250386
-
-ROP is in crossover. Close = 485.989990234375,Result = Sell, Volume = 55115
-
-TSCO is in crossover. Close = 189.0,Result = Sell, Volume = 221370
-
-TYL is in crossover. Close = 473.4299926757813,Result = Sell, Volume = 58308
-
-VMC is in crossover. Close = 175.33999633789062,Result = Sell, Volume = 180845
-
-WLTW is in crossover. Close = 222.08999633789065,Result = Sell, Volume = 72176
-
-Start OSL: Mon Jul 19 06:31:55 2021
-2020 is in crossover. Close = 110.5,Result = Sell, Volume = 13060.0
-
-ACC is in crossover. Close = 17.665000915527344,Result = Sell, Volume = 48294
-
-AKER is in crossover. Close = 631.0,Result = Sell, Volume = 9118
-
-AKSO is in crossover. Close = 15.56999969482422,Result = Sell, Volume = 396113
+Start OSL: Mon Jul 19 08:03:51 2021
+AIRX is in crossover. Close = 9.399999618530272,Result = Sell, Volume = 850
 
 AKVA is in crossover. Close = 86.0,Result = Sell, Volume = 100
 
 BORR is in crossover. Close = 7.300000190734863,Result = Sell, Volume = 117774
 
-BSP is in crossover. Close = 2.720000028610229,Result = Buy, Volume = 300
-
-ECO is in crossover. Close = 21.100000381469727,Result = Sell, Volume = 110
-
 EXTX is in crossover. Close = 19.5,Result = Buy, Volume = 1225
 
-GJF is in crossover. Close = 203.8000030517578,Result = Sell, Volume = 12179
+LINK is in crossover. Close = 33.45000076293945,Result = Buy, Volume = 23152
 
-GOGL is in crossover. Close = 87.5,Result = Sell, Volume = 88312
+NCOD is in crossover. Close = 114.1999969482422,Result = Buy, Volume = 204
 
-HAV is in crossover. Close = 13.0,Result = Sell, Volume = 4096
+ROM is in crossover. Close = 1.7000000476837158,Result = Buy, Volume = 20
 
-HAVI is in crossover. Close = 2.5999999046325684,Result = Sell, Volume = 3445
-
-HDLY is in crossover. Close = 9.645999908447266,Result = Buy, Volume = 1823
-
-HRGI is in crossover. Close = 38.20000076293945,Result = Buy, Volume = 13
-
-HSPG is in crossover. Close = 130.0,Result = Buy, Volume = 2400
-
-IOX is in crossover. Close = 1.1740000247955322,Result = Buy, Volume = 40548
-
-IWS is in crossover. Close = 38.994998931884766,Result = Buy, Volume = 31
-
-KCC is in crossover. Close = 40.0,Result = Sell, Volume = 5000
-
-KING is in crossover. Close = 24.950000762939453,Result = Sell, Volume = 395
-
-LIFE is in crossover. Close = 2.369999885559082,Result = Buy, Volume = 100
-
-NISB is in crossover. Close = 105.0,Result = Buy, Volume = 21
-
-NORBT is in crossover. Close = 18.700000762939453,Result = Sell, Volume = 5
-
-NRC is in crossover. Close = 16.31999969482422,Result = Buy, Volume = 12010
-
-NTEL is in crossover. Close = 23.5,Result = Sell, Volume = 84
-
-OKEA is in crossover. Close = 14.899999618530272,Result = Buy, Volume = 1771
-
-OTEC is in crossover. Close = 31.700000762939453,Result = Buy, Volume = 1221
-
-PARB is in crossover. Close = 52.900001525878906,Result = Sell, Volume = 850
-
-PEXIP is in crossover. Close = 72.30000305175781,Result = Sell, Volume = 4988
-
-PHLY is in crossover. Close = 56.0,Result = Sell, Volume = 3391
-
-POL is in crossover. Close = 70.80000305175781,Result = Buy, Volume = 142
-
-PROT is in crossover. Close = 93.0,Result = Sell, Volume = 564
-
-PROXI is in crossover. Close = 7.750999927520752,Result = Sell, Volume = 323
-
-SADG is in crossover. Close = 93.4000015258789,Result = Sell, Volume = 679
-
-SIKRI is in crossover. Close = 129.0,Result = Buy, Volume = 575
-
-SOAG is in crossover. Close = 308.0,Result = Buy, Volume = 19172
-
-SOFTX is in crossover. Close = 44.04999923706055,Result = Sell, Volume = 1147
-
-SOR is in crossover. Close = 132.0,Result = Sell, Volume = 230
-
-STRO is in crossover. Close = 31.799999237060547,Result = Sell, Volume = 8502
-
-TECH is in crossover. Close = 4.599999904632568,Result = Buy, Volume = 19032
-
-TECO is in crossover. Close = 6.460000038146973,Result = Buy, Volume = 112
-
-TEL is in crossover. Close = 150.5,Result = Buy, Volume = 39153
-
-TRVX is in crossover. Close = 7.800000190734863,Result = Buy, Volume = 296
-
-ZAL is in crossover. Close = 60.59999847412109,Result = Buy, Volume = 11
-
-ZAP is in crossover. Close = 39.220001220703125,Result = Sell, Volume = 19101
+WILS is in crossover. Close = 33.0,Result = Buy, Volume = 209
 

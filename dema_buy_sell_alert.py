@@ -47,7 +47,7 @@ def yfinancedownload(csv_file_name, interval_time):
                 except Exception:
                     pass
  
-def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 2, long_window = 55):
+def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
      dataframes = {}
      for filename in os.listdir('datasets'):
             symbol = filename.split(".")[0]
@@ -57,10 +57,13 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 2, long_window = 55):
                 continue       
             df.dropna(axis = 0, inplace = True) # remove any null rows 
 
-            df['SMA_short'] = df['Close'].rolling(window = short_window, min_periods = 1).mean()
-            df['SMA_long'] = df['Close'].rolling(window = long_window, min_periods = 1).mean()
-            df['DMA_short'] = 2*df['SMA_short'] - (df['SMA_short'].ewm(span = short_window, adjust = False).mean())
-            df['DMA_long'] = 2*df['SMA_long'] - (df['SMA_long'].ewm(span = long_window, adjust = False).mean())
+            df['EMA_short'] = df['Close'].ewm(span = short_window, adjust = False).mean()
+            df['EMA_long'] = df['Close'].ewm(span = long_window, adjust = False).mean()
+            df['DMA_short'] = 2*df['SMA_short'] - (df['EMA_short'].ewm(span = short_window, adjust = False).mean())
+            df['DMA_long'] = 2*df['SMA_long'] - (df['EMA_long'].ewm(span = long_window, adjust = False).mean())
+            df['TR'] = abs(df['High'] - df['Low'])
+            df['ATR'] = df['TR'].rolling(window=20).mean()
+            df['Percent_ATR'] = df['ATR']/df['Close']*100
             df['Signal'] = 0.0
             df['Signal'] = np.where(df['DMA_short'] > df['DMA_long'], 1.0, 0.0) 
             df['Position'] = df['Signal'].diff()
@@ -69,8 +72,8 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 2, long_window = 55):
             try:
                     f = open(completeName, "a")
                     if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}\n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'] ), file=f)
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}\n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'] ))
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}\n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ), file=f)
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}\n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ))
                             
                     f.close()
                             
@@ -147,6 +150,7 @@ def download_and_email():
         createdirectory()
         f = open(completeName, "a")
         print ("Start OSL: %s" % time.ctime(), file=f) 
+        print ("*******************************************************************" , file=f)
         f.close()
         yfinancedownload('inputOSL.csv','1h')
         dema_buy_sell_detect()
@@ -154,9 +158,8 @@ def download_and_email():
 
 
 def main():
-    # download_and_email()
-    # schedule.every().hour.do(download_and_email)
-    
+    download_and_email()
+    schedule.every().hour.do(download_and_email)
     schedule.every().monday.at(trading_start_time_hour+":00").do(download_and_email)
     schedule.every().monday.at(trading_end_time_hour+":00").do(download_and_email)
     schedule.every().tuesday.at(trading_start_time_hour+":00").do(download_and_email)
