@@ -16,7 +16,7 @@ import schedule
 import temp.config
 
 # time duration for trading
-trading_start_time_hour= "09"
+trading_start_time_hour= "08"
 trading_end_time_hour = "22"
 
 
@@ -137,11 +137,12 @@ def download_and_email():
     if (datetime.datetime.today().weekday() <= 4) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
         createdirectory()
         f = open(completeName, "a")
-        print ("Start SP500: %s" % time.ctime(), file=f) 
+        print ("Start SP500: %s\n" % time.ctime(), file=f) 
+        print ("*******************************************************************" , file=f)
         f.close()
         yfinancedownload('input.csv','1h')
         dema_buy_sell_detect()
-        email_export()
+        # email_export()
         
         createdirectory()
         f = open(completeName, "a")
@@ -153,23 +154,24 @@ def download_and_email():
 
 
 def main():
-    download_and_email()
+    # download_and_email()
     # schedule.every().hour.do(download_and_email)
-    # # schedule.every().monday.at(trading_start_time_hour+":00").do(download_and_email)
-    # schedule.every().monday.at(trading_end_time_hour+":00").do(download_and_email)
-    # schedule.every().tuesday.at(trading_start_time_hour+":00").do(download_and_email)
-    # schedule.every().tuesday.at(trading_end_time_hour+":00").do(download_and_email)
-    # schedule.every().wednesday.at(trading_start_time_hour+":00").do(download_and_email)
-    # schedule.every().wednesday.at(trading_end_time_hour+":00").do(download_and_email)
-    # schedule.every().thursday.at(trading_start_time_hour+":00").do(download_and_email)
-    # schedule.every().thursday.at(trading_end_time_hour+":00").do(download_and_email)
-    # schedule.every().friday.at(trading_start_time_hour+":00").do(download_and_email)
-    # schedule.every().friday.at(trading_end_time_hour+":00").do(download_and_email)
+    
+    schedule.every().monday.at(trading_start_time_hour+":00").do(download_and_email)
+    schedule.every().monday.at(trading_end_time_hour+":00").do(download_and_email)
+    schedule.every().tuesday.at(trading_start_time_hour+":00").do(download_and_email)
+    schedule.every().tuesday.at(trading_end_time_hour+":00").do(download_and_email)
+    schedule.every().wednesday.at(trading_start_time_hour+":00").do(download_and_email)
+    schedule.every().wednesday.at(trading_end_time_hour+":00").do(download_and_email)
+    schedule.every().thursday.at(trading_start_time_hour+":00").do(download_and_email)
+    schedule.every().thursday.at(trading_end_time_hour+":00").do(download_and_email)
+    schedule.every().friday.at(trading_start_time_hour+":00").do(download_and_email)
+    schedule.every().friday.at(trading_end_time_hour+":00").do(download_and_email)
 
 
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)    
+    while True:
+        schedule.run_pending()
+        time.sleep(1)    
     
 if __name__ == "__main__":
     main()
