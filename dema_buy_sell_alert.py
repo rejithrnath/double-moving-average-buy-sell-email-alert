@@ -1,7 +1,7 @@
+  
 # -*- coding: utf-8 -*-
 """
 Created on Sun Jul 18 20:15:13 2021
-
 @author: Rejith Reghunathan 
 @email: rejithrnath@gmail.com
 """
@@ -16,7 +16,7 @@ import schedule
 import temp.config
 
 # time duration for trading
-trading_start_time_hour= "08"
+trading_start_time_hour= "06"
 trading_end_time_hour = "22"
 
 
@@ -27,12 +27,20 @@ if not os.path.exists('datasets'):
         os.makedirs('datasets')
         
 save_path = 'results/'
-filename_results = datetime.datetime.now().strftime("%Y%m%d-%H")
+filename_results = datetime.datetime.now().strftime("%Y%m%d")
 completeName = os.path.join(save_path, filename_results+".txt")
 
 def createdirectory():
     shutil.rmtree('datasets')
-    os.makedirs('datasets')   
+    os.makedirs('datasets') 
+    
+def delete_results():
+    shutil.rmtree('results')
+    os.makedirs('results')
+    save_path = 'results/'
+    filename_results = datetime.datetime.now().strftime("%Y%m%d")
+    completeName = os.path.join(save_path, filename_results+".txt") 
+      
     
 
 def yfinancedownload(csv_file_name, interval_time):
@@ -49,6 +57,8 @@ def yfinancedownload(csv_file_name, interval_time):
  
 def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
      dataframes = {}
+     start = datetime.datetime.today() - datetime.timedelta(7)
+     end = datetime.datetime.today()
      for filename in os.listdir('datasets'):
             symbol = filename.split(".")[0]
             
@@ -57,12 +67,14 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
                 continue       
             df.dropna(axis = 0, inplace = True) # remove any null rows 
 
+            
+            
             df['EMA_short'] = df['Close'].ewm(span = short_window, adjust = False).mean()
             df['EMA_long'] = df['Close'].ewm(span = long_window, adjust = False).mean()
-            df['DMA_short'] = 2*df['SMA_short'] - (df['EMA_short'].ewm(span = short_window, adjust = False).mean())
-            df['DMA_long'] = 2*df['SMA_long'] - (df['EMA_long'].ewm(span = long_window, adjust = False).mean())
+            df['DMA_short'] = 2*df['EMA_short'] - (df['EMA_short'].ewm(span = short_window, adjust = False).mean())
+            df['DMA_long'] = 2*df['EMA_long'] - (df['EMA_long'].ewm(span = long_window, adjust = False).mean())
             df['TR'] = abs(df['High'] - df['Low'])
-            df['ATR'] = df['TR'].rolling(window=20).mean()
+            df['ATR'] = df['TR'].rolling(window=short_window).mean()
             df['Percent_ATR'] = df['ATR']/df['Close']*100
             df['Signal'] = 0.0
             df['Signal'] = np.where(df['DMA_short'] > df['DMA_long'], 1.0, 0.0) 
@@ -72,13 +84,13 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             try:
                     f = open(completeName, "a")
                     if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}\n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ), file=f)
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}\n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ))
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ), file=f)
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ))
                             
                     f.close()
                             
             except Exception:
-                    pass    
+                    pass      
 
 
 
@@ -139,22 +151,23 @@ def download_and_email():
     print ("RUNNING !!!" ) 
     if (datetime.datetime.today().weekday() <= 4) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
         createdirectory()
+        delete_results()
         f = open(completeName, "a")
         print ("Start SP500: %s\n" % time.ctime(), file=f) 
         print ("*******************************************************************" , file=f)
         f.close()
         yfinancedownload('input.csv','1h')
         dema_buy_sell_detect()
-        # email_export()
-        
-        createdirectory()
-        f = open(completeName, "a")
-        print ("Start OSL: %s" % time.ctime(), file=f) 
-        print ("*******************************************************************" , file=f)
-        f.close()
-        yfinancedownload('inputOSL.csv','1h')
-        dema_buy_sell_detect()
         email_export()
+        
+        # createdirectory()
+        # f = open(completeName, "a")
+        # print ("Start OSL: %s" % time.ctime(), file=f) 
+        # print ("*******************************************************************" , file=f)
+        # f.close()
+        # yfinancedownload('inputOSL.csv','1h')
+        # dema_buy_sell_detect()
+        # email_export()
 
 
 def main():
