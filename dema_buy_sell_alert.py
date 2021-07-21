@@ -16,7 +16,7 @@ import schedule
 import temp.config
 
 # time duration for trading
-trading_start_time_hour= "06"
+trading_start_time_hour= "08"
 trading_end_time_hour = "22"
 
 
@@ -101,7 +101,7 @@ def email_export():
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
     
-    subject = "Results"+ str(datetime.datetime.now())
+    subject = "Results "+ str(datetime.datetime.now())
     body = "Email with attachment "
     
     sender_email = temp.config.sender_email
@@ -114,7 +114,7 @@ def email_export():
     message["From"] = sender_email
     message["To"] = receiver_email
     message["Subject"] = subject
-    message["Bcc"] = receiver_email  # Recommended for mass emails
+    # message["Bcc"] = receiver_email  # Recommended for mass emails
     
     # Add body to email
     message.attach(MIMEText(body, "plain"))
@@ -160,15 +160,6 @@ def download_and_email():
         dema_buy_sell_detect()
         email_export()
         
-        # createdirectory()
-        # f = open(completeName, "a")
-        # print ("Start OSL: %s" % time.ctime(), file=f) 
-        # print ("*******************************************************************" , file=f)
-        # f.close()
-        # yfinancedownload('inputOSL.csv','1h')
-        # dema_buy_sell_detect()
-        # email_export()
-
 
 def main():
     download_and_email()
