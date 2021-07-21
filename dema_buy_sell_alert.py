@@ -16,7 +16,7 @@ import schedule
 import temp.config
 
 # time duration for trading
-trading_start_time_hour= "08"
+trading_start_time_hour= "06"
 trading_end_time_hour = "22"
 
 
@@ -66,9 +66,7 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             if df.empty: 
                 continue       
             df.dropna(axis = 0, inplace = True) # remove any null rows 
-
-            
-            
+            df['hourly_pc'] = df['Close'] /df['Close'].shift(1) -1
             df['EMA_short'] = df['Close'].ewm(span = short_window, adjust = False).mean()
             df['EMA_long'] = df['Close'].ewm(span = long_window, adjust = False).mean()
             df['DMA_short'] = 2*df['EMA_short'] - (df['EMA_short'].ewm(span = short_window, adjust = False).mean())
@@ -84,8 +82,8 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             try:
                     f = open(completeName, "a")
                     if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ), file=f)
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'] ))
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc']  ), file=f)
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] ))
                             
                     f.close()
                             

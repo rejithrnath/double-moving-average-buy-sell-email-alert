@@ -1,41 +1,5 @@
-Start SP500: Wed Jul 21 06:16:05 2021
+Start SP500: Wed Jul 21 06:26:00 2021
 
 *******************************************************************
-AIG is in crossover. Close = 47.2400016784668,Result = Buy, Volume = 825557, NATR = 1.0072774603407408 
-
-BWA is in crossover. Close = 47.02999877929688,Result = Buy, Volume = 400400, NATR = 0.9967900041835244 
-
-DTE is in crossover. Close = 116.1500015258789,Result = Buy, Volume = 205571, NATR = 0.7509752614410632 
-
-FFIV is in crossover. Close = 186.8000030517578,Result = Buy, Volume = 77570, NATR = 0.6570556290560017 
-
-IPGP is in crossover. Close = 208.1300048828125,Result = Buy, Volume = 34008, NATR = 0.8631652527169317 
-
-IQV is in crossover. Close = 247.07000732421875,Result = Buy, Volume = 250364, NATR = 0.6509965927282451 
-
-ITW is in crossover. Close = 229.41000366210935,Result = Buy, Volume = 153355, NATR = 0.6052085002299482 
-
-J is in crossover. Close = 132.2100067138672,Result = Buy, Volume = 117395, NATR = 0.8349526227156996 
-
-LB is in crossover. Close = 74.45999908447266,Result = Buy, Volume = 824187, NATR = 1.3977387031730024 
-
-MMM is in crossover. Close = 200.80999755859372,Result = Buy, Volume = 437555, NATR = 0.6328409528750745 
-
-RTX is in crossover. Close = 84.80000305175781,Result = Buy, Volume = 1591962, NATR = 0.8990440833409186 
-
-SNA is in crossover. Close = 223.25,Result = Buy, Volume = 95093, NATR = 0.8145900431972546 
-
-SYY is in crossover. Close = 72.68000030517578,Result = Buy, Volume = 619790, NATR = 0.835639839533581 
-
-TDY is in crossover. Close = 436.4800109863281,Result = Buy, Volume = 57348, NATR = 0.7405751658133582 
-
-TER is in crossover. Close = 123.81999969482422,Result = Buy, Volume = 301871, NATR = 1.0118614284096137 
-
-TRMB is in crossover. Close = 80.63999938964844,Result = Buy, Volume = 230140, NATR = 0.7267923727282914 
-
-TROW is in crossover. Close = 204.30999755859372,Result = Buy, Volume = 146352, NATR = 0.6506648378211906 
-
-TXT is in crossover. Close = 67.06999969482422,Result = Buy, Volume = 234174, NATR = 1.1233253900896116 
-
-WAT is in crossover. Close = 372.1099853515625,Result = Buy, Volume = 87260, NATR = 0.5959826493316189 
+WAT is in crossover. Close = 372.1099853515625,Result = Buy, Volume = 87260, NATR = 0.5959826493316189, hourly_pc =0.0006453605763470094 
 
