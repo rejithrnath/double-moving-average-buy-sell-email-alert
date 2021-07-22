@@ -14,6 +14,8 @@ import time
 import email, smtplib, ssl
 import schedule
 import temp.config
+import requests
+from bs4 import BeautifulSoup
 
 # time duration for trading
 trading_start_time_hour= "06"
@@ -57,6 +59,7 @@ def yfinancedownload(csv_file_name, interval_time):
  
 def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
      dataframes = {}
+     gain_day={}
      start = datetime.datetime.today() - datetime.timedelta(7)
      end = datetime.datetime.today()
      for filename in os.listdir('datasets'):
@@ -66,7 +69,7 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             if df.empty: 
                 continue       
             df.dropna(axis = 0, inplace = True) # remove any null rows 
-            df['hourly_pc'] = df['Close'] /df['Close'].shift(1) -1
+            df['hourly_pc'] = (df['Close'] /df['Close'].shift(1) -1)*100
             df['EMA_short'] = df['Close'].ewm(span = short_window, adjust = False).mean()
             df['EMA_long'] = df['Close'].ewm(span = long_window, adjust = False).mean()
             df['DMA_short'] = 2*df['EMA_short'] - (df['EMA_short'].ewm(span = short_window, adjust = False).mean())
@@ -79,11 +82,36 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             df['Position'] = df['Signal'].diff()
             df['Buy_Sell'] = df['Position'].apply(lambda x: 'Buy' if x == 1 else 'Sell')
             
+            #Webscrapping
+            try:
+                temp_dir = {}
+                url = 'https://finance.yahoo.com/quote/'+symbol+'/financials?p='+symbol
+                headers={'User-Agent': "Mozilla/5.0"}
+                page = requests.get(url, headers=headers)
+                page_content = page.content
+                soup = BeautifulSoup(page_content,'html.parser')
+                tabl = soup.find_all("div", {"class" : "D(ib) Va(m) Maw(65%) Ov(h)"})
+                for t in tabl:
+                    rows = t.find_all("span", {"class" : "Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)"})
+                    for row in rows:
+                        temp_dir[row.get_text(separator=' ').split(" ")[1]]=row.get_text(separator=' ').split(" ")[1]
+                
+                #combining all extracted information with the corresponding ticker
+             
+                gain_day =temp_dir
+                
+            except Exception:
+                    pass
+ 
+            if gain_day == "":
+                gain_day = " "
+            
+            
             try:
                     f = open(completeName, "a")
                     if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc']  ), file=f)
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] ))
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5},Daily Gain ={6} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'], gain_day  ), file=f)
+                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5},Daily Gain ={6} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'],gain_day ))
                             
                     f.close()
                             
