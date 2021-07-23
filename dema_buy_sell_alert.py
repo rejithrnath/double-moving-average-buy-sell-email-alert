@@ -17,7 +17,7 @@ import temp.config
 
 # time duration for trading
 trading_start_time_hour= "06"
-trading_end_time_hour = "22"
+trading_end_time_hour = "23"
 
 
 if not os.path.exists('results'):

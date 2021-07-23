@@ -1,3 +1,37 @@
-Start SP500: Fri Jul 23 22:00:00 2021
+Start SP500: Fri Jul 23 23:26:32 2021
 
 *******************************************************************
+ADM is in crossover. Close = 58.08000183105469,Result = Buy, Volume = 184995, NATR = 0.5226937011245844, hourly_pc =0.0015519943090691601 
+
+AEP is in crossover. Close = 85.9800033569336,Result = Buy, Volume = 623432, NATR = 0.5701167709552944, hourly_pc =0.001047898101347533 
+
+BEN is in crossover. Close = 29.290000915527344,Result = Sell, Volume = 334303, NATR = 0.7649612330293882, hourly_pc =0.0007927408813945824 
+
+BLK is in crossover. Close = 868.510009765625,Result = Sell, Volume = 84326, NATR = 0.513946000172383, hourly_pc =-0.0006443641523401489 
+
+BXP is in crossover. Close = 114.87000274658205,Result = Sell, Volume = 117736, NATR = 0.7495015648644443, hourly_pc =-8.699953930069171e-05 
+
+CL is in crossover. Close = 83.28500366210938,Result = Buy, Volume = 578820, NATR = 0.46026623664606825, hourly_pc =0.00048052032203194095 
+
+CLX is in crossover. Close = 184.82000732421875,Result = Buy, Volume = 262192, NATR = 0.8602665759352927, hourly_pc =0.0020060199625830943 
+
+CNP is in crossover. Close = 25.15999984741211,Result = Buy, Volume = 404925, NATR = 0.553599316271318, hourly_pc =0.004190761961980094 
+
+DVN is in crossover. Close = 25.6200008392334,Result = Sell, Volume = 799200, NATR = 1.2605105933339127, hourly_pc =-0.0019089090024044797 
+
+HAL is in crossover. Close = 20.11000061035156,Result = Sell, Volume = 1831255, NATR = 1.3175871458354795, hourly_pc =-0.0007453112868790468 
+
+LUV is in crossover. Close = 50.70000076293945,Result = Sell, Volume = 1544091, NATR = 1.1210946159524136, hourly_pc =-0.003341815854428054 
+
+MET is in crossover. Close = 57.630001068115234,Result = Sell, Volume = 498790, NATR = 0.6983137284601618, hourly_pc =0.0010422333439130682 
+
+MRO is in crossover. Close = 11.5,Result = Sell, Volume = 1458492, NATR = 1.2844294988343898, hourly_pc =-0.0017361507785524921 
+
+TMUS is in crossover. Close = 143.99000549316406,Result = Sell, Volume = 1238998, NATR = 0.46930240073290874, hourly_pc =-0.004528319402328562 
+
+UPS is in crossover. Close = 211.6199951171875,Result = Sell, Volume = 465106, NATR = 0.4178805315506539, hourly_pc =0.00018902205211590584 
+
+WEC is in crossover. Close = 94.02999877929688,Result = Buy, Volume = 141184, NATR = 0.5550912665893137, hourly_pc =0.0027727646959416763 
+
+WFC is in crossover. Close = 44.5900993347168,Result = Sell, Volume = 3114815, NATR = 0.7318842094995825, hourly_pc =0.00247526514418972 
+
