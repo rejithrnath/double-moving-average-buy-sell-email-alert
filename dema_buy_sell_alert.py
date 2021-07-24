@@ -14,6 +14,11 @@ import time
 import email, smtplib, ssl
 import schedule
 import temp.config
+import requests
+from bs4 import BeautifulSoup
+
+
+
 
 # time duration for trading
 trading_start_time_hour= "00"
@@ -82,12 +87,38 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             df['Signal'] = np.where(df['DMA_short'] > df['DMA_long'], 1.0, 0.0) 
             df['Position'] = df['Signal'].diff()
             df['Buy_Sell'] = df['Position'].apply(lambda x: 'Buy' if x == 1 else 'Sell')
-            
+  
+  
+             #Webscrapping
+            try:
+                temp_dir = {}
+                url = 'https://finance.yahoo.com/quote/'+symbol+'/financials?p='+symbol
+                headers={'User-Agent': "Mozilla/5.0"}
+                page = requests.get(url, headers=headers)
+                page_content = page.content
+                soup = BeautifulSoup(page_content,'html.parser')
+                tabl = soup.find_all("div", {"class" : "D(ib) Va(m) Maw(65%) Ov(h)"})
+                for t in tabl:
+                    rows = t.find_all("span", {"data-reactid" : "32"})
+                    for row in rows:
+                        temp_dir[row.get_text(separator=' ').split(" ")[1]]=row.get_text(separator=' ').split(" ")[1]
+                
+                #combining all extracted information with the corresponding ticker
+             
+                gain_day =list(temp_dir.keys())[0]
+                
+                
+            except Exception:
+                    pass
+ 
+            # if gain_day == "" or gain_day =={ }:
+            #     gain_day = " "
+           
             
             f = open(completeName, "a")
             if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} % \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc']  ), file=f)
-                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} % \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] ))
+                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} %, Daily Gain ={6}  \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] , gain_day ), file=f)
+                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} %, Daily Gain ={6}  \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] , gain_day))
                     
             f.close()
                             
