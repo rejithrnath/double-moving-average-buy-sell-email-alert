@@ -16,8 +16,8 @@ import schedule
 import temp.config
 
 # time duration for trading
-trading_start_time_hour= "06"
-trading_end_time_hour = "22"
+trading_start_time_hour= "00"
+trading_end_time_hour = "23"
 
 
 if not os.path.exists('results'):
@@ -65,30 +65,34 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             df = pandas.read_csv('datasets/{}'.format(filename))
             if df.empty: 
                 continue       
-            df.dropna(axis = 0, inplace = True) # remove any null rows 
-            df['hourly_pc'] = df['Close'] /df['Close'].shift(1) -1
+            df.dropna(axis = 0, inplace = True) # remove any null rows
+             
+            df['hourly_pc'] = (df['Close'] /df['Close'].shift(1) -1) *100
             df['EMA_short'] = df['Close'].ewm(span = short_window, adjust = False).mean()
             df['EMA_long'] = df['Close'].ewm(span = long_window, adjust = False).mean()
             df['DMA_short'] = 2*df['EMA_short'] - (df['EMA_short'].ewm(span = short_window, adjust = False).mean())
             df['DMA_long'] = 2*df['EMA_long'] - (df['EMA_long'].ewm(span = long_window, adjust = False).mean())
-            df['TR'] = abs(df['High'] - df['Low'])
-            df['ATR'] = df['TR'].rolling(window=short_window).mean()
+            df['H-L']=abs(df['High']-df['Low'])
+            df['H-PC']=abs(df['High']-df['Adj Close'].shift(1))
+            df['L-PC']=abs(df['Low']-df['Adj Close'].shift(1))
+            df['TR']=df[['H-L','H-PC','L-PC']].max(axis=1,skipna=False)
+            df['ATR'] = df['TR'].ewm(span=short_window,adjust=False,min_periods=short_window).mean()
             df['Percent_ATR'] = df['ATR']/df['Close']*100
             df['Signal'] = 0.0
             df['Signal'] = np.where(df['DMA_short'] > df['DMA_long'], 1.0, 0.0) 
             df['Position'] = df['Signal'].diff()
             df['Buy_Sell'] = df['Position'].apply(lambda x: 'Buy' if x == 1 else 'Sell')
             
-            try:
-                    f = open(completeName, "a")
-                    if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc']  ), file=f)
-                         print("{0} is in crossover. Close = {1},Result = {2}, Volume = {3}, NATR = {4}, hourly_pc ={5} \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] ))
+            
+            f = open(completeName, "a")
+            if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
+                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} % \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc']  ), file=f)
+                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} % \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] ))
+                    
+            f.close()
                             
-                    f.close()
-                            
-            except Exception:
-                    pass      
+            # except Exception:
+            #         pass      
 
 
 
@@ -144,14 +148,14 @@ def email_export():
         server.login(sender_email, password)
         server.sendmail(sender_email, receiver_email, text)
         print("Emailed!")
+        delete_results()
 
 def download_and_email():
     print ("RUNNING !!!" ) 
-    if (datetime.datetime.today().weekday() <= 4) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
+    if (datetime.datetime.today().weekday() <= 7) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
         createdirectory()
-        delete_results()
         f = open(completeName, "a")
-        print ("Start SP500: %s\n" % time.ctime(), file=f) 
+        print ("Start -> %s \n" % time.ctime(), file=f) 
         print ("*******************************************************************" , file=f)
         f.close()
         yfinancedownload('input.csv','1h')
