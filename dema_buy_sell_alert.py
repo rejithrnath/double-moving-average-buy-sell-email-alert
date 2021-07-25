@@ -21,8 +21,8 @@ from bs4 import BeautifulSoup
 
 
 # time duration for trading
-trading_start_time_hour= "00"
-trading_end_time_hour = "23"
+trading_start_time_hour= "08"
+trading_end_time_hour = "22"
 
 
 if not os.path.exists('results'):
@@ -183,7 +183,7 @@ def email_export():
 
 def download_and_email():
     print ("RUNNING !!!" ) 
-    if (datetime.datetime.today().weekday() <= 7) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
+    if (datetime.datetime.today().weekday() <= 4) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
         createdirectory()
         f = open(completeName, "a")
         print ("Start -> %s \n" % time.ctime(), file=f) 
