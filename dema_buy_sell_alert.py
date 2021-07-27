@@ -19,12 +19,6 @@ from bs4 import BeautifulSoup
 
 
 
-
-# time duration for trading
-trading_start_time_hour= "08"
-trading_end_time_hour = "22"
-
-
 if not os.path.exists('results'):
         os.makedirs('results')
 
@@ -34,6 +28,8 @@ if not os.path.exists('datasets'):
 save_path = 'results/'
 filename_results = datetime.datetime.now().strftime("%Y%m%d")
 completeName = os.path.join(save_path, filename_results+".txt")
+
+delta_time=7
 
 def createdirectory():
     shutil.rmtree('datasets')
@@ -49,7 +45,7 @@ def delete_results():
     
 
 def yfinancedownload(csv_file_name, interval_time):
-       start = datetime.datetime.today() - datetime.timedelta(7)
+       start = datetime.datetime.today() - datetime.timedelta(delta_time)
        end = datetime.datetime.today()
        with open(csv_file_name) as f:
             lines = f.read().splitlines()
@@ -61,8 +57,9 @@ def yfinancedownload(csv_file_name, interval_time):
                     pass
  
 def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
+     gain_day = " "
      dataframes = {}
-     start = datetime.datetime.today() - datetime.timedelta(7)
+     start = datetime.datetime.today() - datetime.timedelta(delta_time)
      end = datetime.datetime.today()
      for filename in os.listdir('datasets'):
             symbol = filename.split(".")[0]
@@ -87,8 +84,8 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
             df['Signal'] = np.where(df['DMA_short'] > df['DMA_long'], 1.0, 0.0) 
             df['Position'] = df['Signal'].diff()
             df['Buy_Sell'] = df['Position'].apply(lambda x: 'Buy' if x == 1 else 'Sell')
-  
-  
+
+            
              #Webscrapping
             try:
                 temp_dir = {}
@@ -103,29 +100,26 @@ def dema_buy_sell_detect(symbol ="ETH-USD",short_window = 21, long_window = 55):
                     for row in rows:
                         temp_dir[row.get_text(separator=' ').split(" ")[1]]=row.get_text(separator=' ').split(" ")[1]
                 
-                #combining all extracted information with the corresponding ticker
-             
+              
                 gain_day =list(temp_dir.keys())[0]
                 
                 
             except Exception:
                     pass
  
-            # if gain_day == "" or gain_day =={ }:
-            #     gain_day = " "
            
-            
-            f = open(completeName, "a")
-            if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
-                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} %, Daily Gain ={6}  \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] , gain_day ), file=f)
-                    print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, NATR = {4:.2f} %, hourly_pc ={5:.4f} %, Daily Gain ={6}  \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] , gain_day))
-                    
-            f.close()
+           
+            try:
+                f = open(completeName, "a")
+                if df.iloc[-1]['Position'] == 1 or df.iloc[-1]['Position'] == -1 :
+                        print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, Percent ATR = {4:.2f} %, Hourly Gain ={5:.4f} %, Daily Gain ={6}  \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] , gain_day ), file=f)
+                        print("{0} is in crossover. Close = {1:.2f}, Result = {2}, Volume = {3:.2f}, Percent ATR = {4:.2f} %, Hourly Gain ={5:.4f} %, Daily Gain ={6}  \n".format(symbol,df.iloc[-1]['Close'],df.iloc[-1]['Buy_Sell'],df.iloc[-1]['Volume'],df.iloc[-1]['Percent_ATR'],df.iloc[-1]['hourly_pc'] , gain_day))
+                        
+                f.close()
                             
-            # except Exception:
-            #         pass      
-
-
+            except Exception:
+                    pass
+      
 
 
 def email_export():
@@ -145,9 +139,9 @@ def email_export():
     # Create a multipart message and set headers
     message = MIMEMultipart()
     message["From"] = sender_email
-    message["To"] = receiver_email
+    message["To"] = sender_email
     message["Subject"] = subject
-    # message["Bcc"] = receiver_email  # Recommended for mass emails
+    message["Bcc"] = ", ".join(receiver_email)  # Recommended for mass emails
     
     # Add body to email
     message.attach(MIMEText(body, "plain"))
@@ -183,32 +177,44 @@ def email_export():
 
 def download_and_email():
     print ("RUNNING !!!" ) 
-    if (datetime.datetime.today().weekday() <= 4) and ((datetime.datetime.now().hour >= int(trading_start_time_hour)) and (datetime.datetime.now().hour <= int(trading_end_time_hour)))== True:
-        createdirectory()
-        f = open(completeName, "a")
-        print ("Start -> %s \n" % time.ctime(), file=f) 
-        print ("*******************************************************************" , file=f)
-        f.close()
-        yfinancedownload('input.csv','1h')
-        dema_buy_sell_detect()
-        email_export()
-        
+    createdirectory()
+    f = open(completeName, "a")
+    print ("Start SP500 -> %s \n" % time.ctime(), file=f) 
+    print ("*******************************************************************" , file=f)
+    f.close()
+    yfinancedownload('SP500.csv','1h')
+    dema_buy_sell_detect()
+    f = open(completeName, "a")
+    print ("*******************************************************************" , file=f)
+    f.close()
+    email_export()
+    
+    
+    createdirectory()
+    f = open(completeName, "a")
+    print ("Start OL Stocks -> %s \n" % time.ctime(), file=f) 
+    print ("*******************************************************************" , file=f)
+    f.close()
+    yfinancedownload('OSL.csv','1h')
+    dema_buy_sell_detect()
+    f = open(completeName, "a")
+    print ("*******************************************************************" , file=f)
+    f.close()
+    email_export()
+       
 
 def main():
+    
+    print("RUNNING!!")
     download_and_email()
-    schedule.every().hour.do(download_and_email)
-    schedule.every().monday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().monday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().tuesday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().tuesday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().wednesday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().wednesday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().thursday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().thursday.at(trading_end_time_hour+":00").do(download_and_email)
-    schedule.every().friday.at(trading_start_time_hour+":00").do(download_and_email)
-    schedule.every().friday.at(trading_end_time_hour+":00").do(download_and_email)
-
-
+    trading_time = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21"]
+    for x in trading_time:
+        schedule.every().monday.at(str(x)+":15").do(download_and_email)
+        schedule.every().tuesday.at(str(x)+":15").do(download_and_email)
+        schedule.every().wednesday.at(str(x)+":15").do(download_and_email)
+        schedule.every().thursday.at(str(x)+":15").do(download_and_email)
+        schedule.every().friday.at(str(x)+":15").do(download_and_email)
+ 
     while True:
         schedule.run_pending()
         time.sleep(1)    
